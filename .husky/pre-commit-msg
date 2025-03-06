@@ -1,0 +1,19 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Skip the hook for amend commits
+if [ "$2" = "commit" ]; then
+  echo "Skipping prepare-commit-msg hook due to amend."
+  exit 0
+fi
+
+# Skip the hook for rebasing
+if [ -n "$GIT_SEQUENCE_EDITOR" ]; then
+  echo "Skipping prepare-commit-msg hook due to rebase."
+  exit 0
+fi
+
+# Use Commitizen if it's a normal commit
+if [ -z "$2" ]; then
+  exec < /dev/tty && npx git-cz --hook || true
+fi
