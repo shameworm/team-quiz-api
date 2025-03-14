@@ -17,7 +17,13 @@ export const getGames = async (
     return next(new HttpError('Fetching games failed, please try again', 500));
   }
 
-  res.json({ games: games.map((game) => game.toObject({ getters: true })) });
+  if (!games || games.length === 0) {
+    return next(new HttpError('No games found.', 404));
+  }
+
+  res
+    .status(200)
+    .json({ games: games.map((game) => game.toObject({ getters: true })) });
 };
 
 export const getGamesById = async (
@@ -34,7 +40,11 @@ export const getGamesById = async (
     return next(new HttpError('Fetching game failed, please try again', 500));
   }
 
-  res.json({ games: game?.toObject({ getters: true }) });
+  if (!game) {
+    return next(new HttpError('Game not found.', 404));
+  }
+
+  res.status(200).json({ game: game.toObject({ getters: true }) });
 };
 
 export const getGameByCreatorId = async (
@@ -59,7 +69,18 @@ export const getGameByCreatorId = async (
     );
   }
 
-  res.json({
+  if (!userWithCreatedGames) {
+    return next(new HttpError('User not found.', 404));
+  }
+
+  if (
+    !userWithCreatedGames.createdGames ||
+    userWithCreatedGames.createdGames.length === 0
+  ) {
+    return next(new HttpError('No games found for this user.', 404));
+  }
+
+  res.status(200).json({
     games: userWithCreatedGames?.createdGames.map((game: any) =>
       game.toObject({ getters: true })
     ),
