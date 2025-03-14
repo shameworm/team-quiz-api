@@ -65,3 +65,36 @@ export const getGameByCreatorId = async (
     ),
   });
 };
+
+export const createGame = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, description, createdBy } = req.body;
+
+  const createdGame = new Game({
+    name,
+    description,
+    createdBy,
+  });
+
+  let user;
+  try {
+    user = await User.findById(createdBy);
+  } catch (_error) {
+    return next(new HttpError('Creating game failed. Try again later.', 500));
+  }
+
+  if (!user) {
+    return next(
+      new HttpError('Creating game failed. Could not find user.', 500)
+    );
+  }
+
+  await createdGame.save();
+  user.createdGames.push(createdGame.id!);
+  await user.save();
+
+  res.status(201).json({ game: createGame });
+};
