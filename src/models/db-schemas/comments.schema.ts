@@ -25,7 +25,7 @@ const commentSchema = new Schema<IComment>({
 });
 
 const commentsSchema = new Schema<IComments>({
-  comments: [commentSchema],
+  comments: { type: [commentSchema], default: [] },
 });
 
 export const Comments = mongoose.model<IComments>('Comments', commentsSchema);

@@ -31,7 +31,7 @@ const brainstormCategorySchema = new Schema<IBrainstormCategory>({
 });
 
 const brainstormSchema = new Schema<IBrainstorm>({
-  categories: [brainstormCategorySchema],
+  categories: { type: [brainstormCategorySchema], default: [] },
 });
 
 export const Brainstorm = mongoose.model<IBrainstorm>(

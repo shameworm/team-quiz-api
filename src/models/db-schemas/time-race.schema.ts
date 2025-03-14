@@ -19,7 +19,7 @@ const timeRaceCategorySchema = new Schema<ITimeRaceCategory>({
 const timeRaceSchema = new Schema<ITimeRace>({
   timeLimit: { type: Number, required: true },
   numberOfItems: { type: Number, required: true },
-  categories: [timeRaceCategorySchema],
+  categories: { type: [timeRaceCategorySchema], default: [] },
 });
 
 export const TimeRace = mongoose.model<ITimeRace>('TimeRace', timeRaceSchema);
