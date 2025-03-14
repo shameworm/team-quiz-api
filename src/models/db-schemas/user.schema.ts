@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   image: string;
+  createdGames: mongoose.Types.ObjectId[];
 }
 
 const userSchema = new Schema<IUser>({
@@ -12,6 +13,10 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 6 },
   image: { type: String, required: true },
+  createdGames: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Game' }],
+    default: [],
+  },
 });
 
 export const User = mongoose.model<IUser>('User', userSchema);
