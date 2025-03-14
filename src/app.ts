@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import { router as usersRoutes } from './routes/user.routes';
+import { router as gameRoutes } from './routes/game.routes';
 
 import { HttpError } from './models/custom/http-error';
 
@@ -31,6 +32,7 @@ app.use((_req, res, next) => {
 });
 
 app.use('/api/users', usersRoutes);
+app.use('/api/game', gameRoutes);
 
 app.use((_req, _res, _next) => {
   const error = new HttpError('Could not find this route', 404);

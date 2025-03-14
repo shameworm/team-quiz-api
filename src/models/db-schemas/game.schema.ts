@@ -16,7 +16,7 @@ export interface IGame extends Document {
 const gameSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  image: { type: String, required: true },
+  image: { type: String, required: false },
   createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   brainstorm: {
     type: Schema.Types.ObjectId,

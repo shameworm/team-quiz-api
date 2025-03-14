@@ -26,7 +26,7 @@ export const getGames = async (
     .json({ games: games.map((game) => game.toObject({ getters: true })) });
 };
 
-export const getGamesById = async (
+export const getGameById = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -117,7 +117,9 @@ export const createGame = async (
   user.createdGames.push(createdGame.id!);
   await user.save();
 
-  res.status(201).json({ game: createGame });
+  res
+    .status(201)
+    .json({ game: createGame, message: 'Game successfully created.' });
 };
 
 export const updateGame = async (
@@ -149,7 +151,10 @@ export const updateGame = async (
     return next(new HttpError('Updating game failed, please try again.', 500));
   }
 
-  res.status(200).json({ game: game.toObject({ getters: true }) });
+  res.status(200).json({
+    game: game.toObject({ getters: true }),
+    message: 'Game successfully updated.',
+  });
 };
 
 export const deleteGame = async (
