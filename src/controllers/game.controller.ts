@@ -119,3 +119,73 @@ export const createGame = async (
 
   res.status(201).json({ game: createGame });
 };
+
+export const updateGame = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { gameId } = req.params;
+  const { name, description } = req.body;
+
+  let game;
+
+  try {
+    game = await Game.findById(gameId);
+  } catch (_error) {
+    return next(new HttpError('Updating game failed, please try again.', 500));
+  }
+
+  if (!game) {
+    return next(new HttpError('Game not found.', 404));
+  }
+
+  game.name = name;
+  game.description = description;
+
+  try {
+    await game.save();
+  } catch (_error) {
+    return next(new HttpError('Updating game failed, please try again.', 500));
+  }
+
+  res.status(200).json({ game: game.toObject({ getters: true }) });
+};
+
+export const deleteGame = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { gameId } = req.params;
+
+  let game;
+
+  try {
+    game = await Game.findById(gameId).populate('createdBy');
+  } catch (_error) {
+    return next(new HttpError('Deleting game failed, please try again.', 500));
+  }
+
+  if (!game) {
+    return next(new HttpError('Game not found.', 404));
+  }
+
+  try {
+    if (game.createdBy) {
+      const user = await User.findById(game.createdBy);
+      if (user) {
+        user.createdGames = user.createdGames.filter(
+          (id) => id.toString() !== gameId
+        );
+        await user.save();
+      }
+    }
+
+    await game.deleteOne();
+  } catch (_error) {
+    return next(new HttpError('Deleting game failed, please try again.', 500));
+  }
+
+  res.status(200).json({ message: 'Game deleted successfully' });
+};
