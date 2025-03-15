@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 import { Brainstorm } from './brainstorm.schema';
 import { Comments } from './comments.schema';
 import { TimeRace } from './time-race.schema';
+import { Alias } from './alias.schema';
 
 export interface IGame extends Document {
   name: string;
@@ -11,9 +12,10 @@ export interface IGame extends Document {
   brainstorm: mongoose.Types.ObjectId;
   comments: mongoose.Types.ObjectId;
   timeRace: mongoose.Types.ObjectId;
+  alias: mongoose.Types.ObjectId;
 }
 
-const gameSchema = new Schema({
+const gameSchema = new Schema<IGame>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String, required: false },
@@ -21,23 +23,22 @@ const gameSchema = new Schema({
   brainstorm: {
     type: Schema.Types.ObjectId,
     ref: 'Brainstorm',
-    default: function () {
-      return new Brainstorm()._id;
-    },
+    default: () => new Brainstorm().id,
   },
   comments: {
     type: Schema.Types.ObjectId,
     ref: 'Comments',
-    default: function () {
-      return new Comments()._id;
-    },
+    default: () => new Comments().id,
   },
   timeRace: {
     type: Schema.Types.ObjectId,
     ref: 'TimeRace',
-    default: function () {
-      return new TimeRace()._id;
-    },
+    default: () => new TimeRace().id,
+  },
+  alias: {
+    type: Schema.Types.ObjectId,
+    ref: 'Alias',
+    default: () => new Alias().id,
   },
 });
 
