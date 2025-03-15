@@ -23,23 +23,51 @@ const gameSchema = new Schema<IGame>({
   brainstorm: {
     type: Schema.Types.ObjectId,
     ref: 'Brainstorm',
-    default: () => new Brainstorm().id,
   },
   comments: {
     type: Schema.Types.ObjectId,
     ref: 'Comments',
-    default: () => new Comments().id,
   },
   timeRace: {
     type: Schema.Types.ObjectId,
     ref: 'TimeRace',
-    default: () => new TimeRace().id,
   },
   alias: {
     type: Schema.Types.ObjectId,
     ref: 'Alias',
-    default: () => new Alias().id,
   },
+});
+
+gameSchema.pre('save', async function (next) {
+  try {
+    if (!this.brainstorm) {
+      const brainstorm = new Brainstorm();
+      await brainstorm.save();
+      this.brainstorm = brainstorm._id as mongoose.Types.ObjectId;
+    }
+
+    if (!this.comments) {
+      const comments = new Comments();
+      await comments.save();
+      this.comments = comments._id as mongoose.Types.ObjectId;
+    }
+
+    if (!this.timeRace) {
+      const timeRace = new TimeRace();
+      await timeRace.save();
+      this.timeRace = timeRace._id as mongoose.Types.ObjectId;
+    }
+
+    if (!this.alias) {
+      const alias = new Alias();
+      await alias.save();
+      this.alias = alias._id as mongoose.Types.ObjectId;
+    }
+
+    next();
+  } catch (error: unknown) {
+    next(error as any);
+  }
 });
 
 export const Game = mongoose.model<IGame>('Game', gameSchema);
