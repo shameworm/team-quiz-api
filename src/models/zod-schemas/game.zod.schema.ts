@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const gameSchema = z.object({
+export const gameZodSchema = z.object({
   name: z
     .string()
     .min(3, 'Name should be at least 3 characters long')
@@ -12,4 +12,4 @@ export const gameSchema = z.object({
   image: z.string().nullable().optional(),
 });
 
-export type Game = z.infer<typeof gameSchema>;
+export type Game = z.infer<typeof gameZodSchema>;

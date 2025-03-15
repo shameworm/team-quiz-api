@@ -12,10 +12,10 @@ const brainstormCategorySchema = z.object({
   hard: brainstormQuestion,
 });
 
-export const brainstormSchema = z.object({
+export const brainstormZodSchema = z.object({
   categories: z
     .array(brainstormCategorySchema)
     .min(1, 'At least one category is required'),
 });
 
-export type Brainstorm = z.infer<typeof brainstormSchema>;
+export type Brainstorm = z.infer<typeof brainstormZodSchema>;

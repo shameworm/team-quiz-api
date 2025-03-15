@@ -12,8 +12,8 @@ const commentSchema = z.object({
     .length(4, 'Videos array must contain exactly 4 items'),
 });
 
-export const commentsSchema = z.object({
+export const commentsZodSchema = z.object({
   comments: z.array(commentSchema).min(1, 'At least one comment is required'),
 });
 
-export type Comments = z.infer<typeof commentsSchema>;
+export type Comments = z.infer<typeof commentsZodSchema>;

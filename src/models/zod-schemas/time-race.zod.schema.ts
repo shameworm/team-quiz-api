@@ -7,7 +7,7 @@ const timeRaceCategorySchema = z.object({
     .min(1, 'At least one example is required'),
 });
 
-export const timeRaceSchema = z.object({
+export const timeRaceZodSchema = z.object({
   timeLimit: z.number().min(1, 'Time limit must be greater than 0'),
   numberOfitems: z.number().min(1, 'Number of items must be greater than 0'),
   categories: z
@@ -15,4 +15,4 @@ export const timeRaceSchema = z.object({
     .min(1, 'At least one category is required'),
 });
 
-export type TimeRace = z.infer<typeof timeRaceSchema>;
+export type TimeRace = z.infer<typeof timeRaceZodSchema>;

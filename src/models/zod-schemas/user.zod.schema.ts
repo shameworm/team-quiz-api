@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const userSchema = z
+export const userZodSchema = z
   .object({
     username: z
       .string()
@@ -18,4 +18,4 @@ export const userSchema = z
     path: ['confirmPassword'],
   });
 
-export type UserInput = z.infer<typeof userSchema>;
+export type UserInput = z.infer<typeof userZodSchema>;
