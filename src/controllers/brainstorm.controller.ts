@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+
 import { Game } from '../models/db-schemas/game.schema';
 import {
   Brainstorm,
@@ -13,6 +14,7 @@ export const getBrainstormById = async (
 ) => {
   const { gameId } = req.params;
   let game;
+
   try {
     game = await Game.findById(gameId).populate('brainstorm');
   } catch (_error) {
@@ -23,12 +25,15 @@ export const getBrainstormById = async (
       )
     );
   }
+
   if (!game) {
     return next(new HttpError('Game not found', 404));
   }
+
   if (!game.brainstorm) {
     return next(new HttpError('Brainstorm not found', 404));
   }
+
   res.status(200).json({ brainstorm: game.brainstorm });
 };
 
@@ -39,16 +44,6 @@ export const addCategory = async (
 ) => {
   const { gameId } = req.params;
   const { name, easy, hard } = req.body;
-
-  if (!name || !easy || !hard) {
-    return next(new HttpError('Missing required fields', 400));
-  }
-
-  if (!easy.question || !easy.answer || !hard.question || !hard.answer) {
-    return next(
-      new HttpError('Questions must have both question and answer', 400)
-    );
-  }
 
   let game;
   try {

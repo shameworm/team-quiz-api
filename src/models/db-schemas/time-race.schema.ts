@@ -17,7 +17,7 @@ const timeRaceCategorySchema = new Schema<ITimeRaceCategory>({
 });
 
 const timeRaceSchema = new Schema<ITimeRace>({
-  timeLimit: { type: Number, required: true, default: 10000 },
+  timeLimit: { type: Number, required: true, default: 10 },
   numberOfItems: { type: Number, required: true, default: 5 },
   categories: { type: [timeRaceCategorySchema], default: [] },
 });
