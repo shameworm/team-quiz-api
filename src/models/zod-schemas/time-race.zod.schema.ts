@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const timeRaceCategorySchema = z.object({
+export const timeRaceCategorySchema = z.object({
   name: z.string().min(1, 'Category name cannot be empty'),
   examples: z
     .array(z.string().min(1, 'Example cannot be empty'))
@@ -8,8 +8,6 @@ const timeRaceCategorySchema = z.object({
 });
 
 export const timeRaceZodSchema = z.object({
-  timeLimit: z.number().min(1, 'Time limit must be greater than 0'),
-  numberOfitems: z.number().min(1, 'Number of items must be greater than 0'),
   categories: z
     .array(timeRaceCategorySchema)
     .min(1, 'At least one category is required'),
