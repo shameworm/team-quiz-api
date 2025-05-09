@@ -8,10 +8,13 @@ import {
   updateGame,
   deleteGame,
 } from '../controllers/game.controller';
-import { validateRequest } from '../middleware/zod.validation';
+import { validateRequest } from '../middleware/zod-validation.middleware';
 import { gameZodSchema } from '../models/zod-schemas/game.zod.schema';
+import { auth } from '../middleware/auth.middleware';
 
 export const router = express.Router();
+
+router.use(auth);
 
 router.get('/', getGames);
 

@@ -7,10 +7,13 @@ import {
   deleteComment,
   resetComments,
 } from '../controllers/comments.controller';
-import { validateRequest } from '../middleware/zod.validation';
+import { validateRequest } from '../middleware/zod-validation.middleware';
+import { auth } from '../middleware/auth.middleware';
 import { commentZodSchema } from '../models/zod-schemas/comments.zod.schema';
 
 export const router = express.Router();
+
+router.use(auth);
 
 router.get('/:gameId/comments', getCommentsById);
 

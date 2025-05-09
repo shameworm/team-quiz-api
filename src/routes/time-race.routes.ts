@@ -7,10 +7,13 @@ import {
   deleteCategory,
   resetTimeRace,
 } from '../controllers/time-race.controller';
-import { validateRequest } from '../middleware/zod.validation';
+import { validateRequest } from '../middleware/zod-validation.middleware';
+import { auth } from '../middleware/auth.middleware';
 import { timeRaceCategorySchema } from '../models/zod-schemas/time-race.zod.schema';
 
 export const router = express.Router();
+
+router.use(auth);
 
 router.get('/:gameId/time-race', getTimeRaceById);
 
