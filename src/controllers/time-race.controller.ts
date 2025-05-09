@@ -77,7 +77,10 @@ export const addCategory = async (
     return next(new HttpError('Adding category failed, please try again', 500));
   }
 
-  res.status(201).json({ timeRace: timeRace });
+  res.status(201).json({
+    message: `${name} successfully added`,
+    timeRace: timeRace.toObject({ getters: true }),
+  });
 };
 
 export const updateCategory = async (
@@ -136,7 +139,10 @@ export const updateCategory = async (
     );
   }
 
-  res.status(200).json({ timeRace: timeRace });
+  res.status(200).json({
+    message: `${name} successfully updated`,
+    timeRace: timeRace.toObject({ getters: true }),
+  });
 };
 
 export const deleteCategory = async (

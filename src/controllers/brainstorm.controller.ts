@@ -33,7 +33,6 @@ export const getBrainstormById = async (
   if (!game.brainstorm) {
     return next(new HttpError('Brainstorm not found', 404));
   }
-
   res.status(200).json({ brainstorm: game.brainstorm });
 };
 
@@ -90,7 +89,10 @@ export const addCategory = async (
     return next(new HttpError('Adding category failed, please try again', 500));
   }
 
-  res.status(201).json({ brainstorm });
+  res.status(201).json({
+    message: `${newCategory.name} successfully created`,
+    brainstorm: brainstorm.toObject({ getters: true }),
+  });
 };
 
 export const updateCategory = async (
@@ -171,7 +173,10 @@ export const updateCategory = async (
     );
   }
 
-  res.status(200).json({ brainstorm });
+  res.status(200).json({
+    brainstorm: brainstorm.toObject({ getters: true }),
+    message: 'Category successfully updated',
+  });
 };
 
 export const deleteCategory = async (

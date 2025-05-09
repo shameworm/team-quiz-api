@@ -76,9 +76,10 @@ export const addComment = async (
     return next(new HttpError('Adding comment failed, please try again', 500));
   }
 
-  res
-    .status(200)
-    .json({ message: 'Comment successfully added', comment: newComment });
+  res.status(200).json({
+    message: 'Comment successfully added',
+    comment: newComment.toObject({ getters: true }),
+  });
 };
 
 export const updateComment = async (
@@ -137,7 +138,7 @@ export const updateComment = async (
     );
   }
 
-  res.status(200).json({ comments });
+  res.status(200).json({ message: `${text} successfully updated`, comments });
 };
 
 export const deleteComment = async (
