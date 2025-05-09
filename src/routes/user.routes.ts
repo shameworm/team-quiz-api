@@ -1,8 +1,11 @@
 import express from 'express';
 
-import { getUsers, signup } from '../controllers/user.controller';
+import { getUsers, login, signup } from '../controllers/user.controller';
 import { validateRequest } from '../middleware/zod-validation.middleware';
-import { userZodSchema } from '../models/zod-schemas/user.zod.schema';
+import {
+  userLoginZodSchema,
+  userSingupZodSchema,
+} from '../models/zod-schemas/user.zod.schema';
 
 import { upload } from '../middleware/file-upload.middleware';
 
@@ -13,6 +16,8 @@ router.get('/', getUsers);
 router.post(
   '/signup',
   upload.single('image'),
-  validateRequest(userZodSchema),
+  validateRequest(userSingupZodSchema),
   signup
 );
+
+router.post('/login', validateRequest(userLoginZodSchema), login);

@@ -9,7 +9,7 @@ export const gameZodSchema = z.object({
     .string()
     .min(3, 'Description should be at least 3 characters long')
     .max(255, 'Description should not exceed 255 characters'),
-  image: z.string(),
+  image: z.string().nullable().optional(),
 });
 
 export type Game = z.infer<typeof gameZodSchema>;

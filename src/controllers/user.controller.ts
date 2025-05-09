@@ -49,12 +49,13 @@ export const signup = async (
     username,
     email,
     password: hashedPassword,
-    image: req.file?.path,
+    image: req.file ? req.file.path : null,
   });
 
   try {
     await user.save();
   } catch (_error) {
+    console.log(_error);
     return next(new HttpError('Signing up failed, please try again', 500));
   }
 
@@ -97,8 +98,8 @@ export const login = async (
   try {
     token = jwt.sign(
       { userId: existingUser.id, email: existingUser.email },
-      process.env.JWT_KEY!,
-      { expiresIn: '1h' }
+      process.env.JWT_PRIVATE_KEY!,
+      { expiresIn: '24h' }
     );
   } catch (_error) {
     return next(new HttpError('Logging in failed, please try again', 500));
