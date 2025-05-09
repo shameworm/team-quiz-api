@@ -97,6 +97,7 @@ export const createGame = async (
   const createdGame = new Game({
     name,
     description,
+    image: req.file?.path,
     createdBy,
   });
 

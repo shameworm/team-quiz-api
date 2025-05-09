@@ -26,7 +26,7 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, email, password, image } = req.body;
+  const { username, email, password } = req.body;
 
   const existingUser = await User.findOne({
     $or: [{ email }, { username }],
@@ -49,7 +49,7 @@ export const signup = async (
     username,
     email,
     password: hashedPassword,
-    image,
+    image: req.file?.path,
   });
 
   try {

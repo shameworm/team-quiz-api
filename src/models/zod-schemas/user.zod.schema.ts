@@ -11,7 +11,7 @@ export const userZodSchema = z
     confirmPassword: z
       .string()
       .min(6, 'Password confirmation must be at least 6 characters'),
-    image: z.string().nullable(),
+    image: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
